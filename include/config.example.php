@@ -4,16 +4,16 @@
   $db_user = 'proxypool'; # mysql user for proxypool
   $db_password = 'password'; # password
   $db_db = 'proxypool'; # name of database
-
-  $local_timezone = 'Europe/Prague'; # set your timezone, list of available settings is at http://www.php.net/manual/en/timezones.php
-
+    
   $p2pool_port = '9171'; # specify port of p2pool
   $p2pool_address = 'p2pool_address'; # url of your p2pool vtc node (do not use http:// or port
   $p2pool_fee = '1.0'; #fee of your node
-
+  
+  $local_timezone = 'Europe/Prague'; # set your timezone, list of available settings is at http://www.php.net/manual/en/timezones.php
   $node_location = 'node_location'; # location of the node
+  
   $table_consolas = True; # True or False
-  $announcement = False; # True or False show announcement 
+  $announcement = True; # True or False show announcement 
   
   $vtc_wallet_address = 'localhost:5888'; # rpc address of vtc wallet
   $vtc_wallet_user = 'vertcoinrpc'; # rpc user of vtc wallet
@@ -22,17 +22,22 @@
   $mon_wallet_address = 'localhost:6888'; # rpc address of vtc wallet
   $mon_wallet_user = 'monoclerpc'; # rpc user of vtc wallet
   $mon_wallet_password = 'rpcpassword'; # rpc password of vtc wallet
+    
+  $plx_wallet_address = 'localhost:7817'; # rpc address of plx wallet
+  $plx_wallet_user = 'plxcoin_rpc'; # rpc user of plx wallet
+  $plx_wallet_password = 'plxcoin_password'; # rpc password of plx wallet
   
-  $vtc_autopayout = '0.2'; # VTC Payout threshold (as set in /proxypool/payout/sharelogger.conf)
-  $mon_autopayout = '0.4'; # MON Payout threshold (as set in /proxypool/payout/sharelogger.conf)
+  $vtc_autopayout = '0.1'; # VTC Payout threshold (as set in /proxypool/payout/sharelogger.conf)
+  $mon_autopayout = '1.0'; # MON Payout threshold (as set in /proxypool/payout/sharelogger.conf)
+  $plx_autopayout = '5.0'; # PLX Payout threshold (as set in /proxypool/payout/sharelogger.conf)  
   
   $show_email = False; # show email True or False
   $lhs = 'support'; # part of email before @ (*support*@example.com)
   $rhs = 'example.com'; # part of email after @ (support@*example.com*)
   $subject = 'P2Proxy support'; # subject of email
 
-  $show_balance = True; # Whether to show balance or not True or False  
+  $show_balance = True; # Whether to show balance or not True or False   
 
-  $minbalance = 1.0; # minbalance as set in sharelogger.conf
-  
+  $minbalance = 0.25; # minbalance as set in sharelogger.conf
+
 ?>
