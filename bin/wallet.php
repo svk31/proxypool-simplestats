@@ -81,6 +81,18 @@
   $monocle_rpc = "http://" . $mon_wallet_user . ":" . $mon_wallet_password . "@" . $mon_wallet_address . "/";
   $monocle = new jsonRPCClient($monocle_rpc);
   $monocle_found = walletLogic($monocle, $minbalance);
+  if ($monocle_found['found_time']=="n/a") 
+ 	{
+  	$monocle_found['found_time']="none found yet";
+  	}
+	 
+  $parallaxcoin_rpc = "http://" . $plx_wallet_user . ":" . $plx_wallet_password . "@" . $plx_wallet_address . "/";
+  $parallaxcoin = new jsonRPCClient($parallaxcoin_rpc);
+  $parallaxcoin_found = walletLogic($parallaxcoin, $minbalance,"");
+  if ($parallaxcoin_found['found_time']=="n/a") 
+  	{
+  	$parallaxcoin_found['found_time']="none found yet";
+  	}
 
   $output = '<?php $vtc_block_found="' . $vertcoin_found['found_time'] . '"; ';
   $output .= '$vtc_block_since="' . $vertcoin_found['since_time'] . '"; ';
@@ -90,7 +102,10 @@
   $output .= '$mon_block_since="' . $monocle_found['since_time'] . '"; ';
   $output .= '$mon_balance="' . $monocle_found['balance'] . '"; ';
   $output .= '$mon_immature="' . $monocle_found['immature'] . '"; ?>';
-  
+  $output .= '$plx_block_found="' . $parallaxcoin_found['found_time'] . '"; ';
+  $output .= '$plx_block_since="' . $parallaxcoin_found['since_time'] . '"; ';
+  $output .= '$plx_balance="' . $parallaxcoin_found['balance'] . '"; '; 
+  $output .= '$plx_immature="' . $parallaxcoin_found['immature'] . '"; ?>';  
   
   $file = dirname(__FILE__) . "/../include/gen-lastblock.php";
   file_put_contents($file, $output);

@@ -11,7 +11,7 @@
   if (!$db) die('Error connecting to db');
 
   mysql_select_db($db_db);
-  $result = mysql_query("select distinct(user), auxuser from stats_shares where foundtime >= date_sub(now(), interval 5 minute) group by user;");
+  $result = mysql_query("select distinct(user), auxuser, plxuser from stats_shares where foundtime >= date_sub(now(), interval 5 minute) group by user;");
   $rows = mysql_num_rows($result);
 
   $hashrate_total = 0;
@@ -24,13 +24,13 @@
   $tfoot = '';
 
   if ($rows == 0) {
-    $tbody .= "<tr><td colspan=3>Nothing to display</td></td>";
+    $tbody .= "<tr><td colspan=4>Nothing to display</td></td>";
   } else {
     $output .= "<h3>Last 5 minutes stats</h3>";
     $output .= "<p>This table is updated every one minute. Last update " . $now;
     $thead .= "<table class='table table-bordered table-striped";
     if ( $table_consolas ) $thead .= " table-consolas";
-    $thead .= "'><th>VTC</th><th>MON</th><th class='numbers'>Hashrate (khs)</th>";
+    $thead .= "'><th>VTC</th><th>MON</th><th>PLX</th><th class='numbers'>Hashrate (khs)</th>";
     while ( $row = mysql_fetch_array($result) ): {
       $query_hash = "select count(user), avg(sharediff) from stats_shares where user='" . $row[0] . "' and foundtime >= date_sub(now(), interval 5 minute);";
       $hashes = mysql_query($query_hash);
@@ -42,10 +42,14 @@
         $hashrate = ($h_row[1] * pow(2, 32)) / (300 / $h_row[0])/1000;
         $hashrate_total += $hashrate;
       };
-      $hyperlink = "?vtc=" . $row[0] . "&mon=" . $row[1];
-      $tbody .= "<tr><td><a href=\"" . $hyperlink . "\">" . $row[0] . "</a></td><td><a href=\"" . $hyperlink . "\">" . $row[1] . "</a></td><td class='numbers'>" . sprintf("%.02f", $hashrate) .  "</td></tr>";
+      $hyperlink = "?vtc=" . $row[0] . "&mon=" . $row[1] . "&plx=" . $row[2];
+      $tbody .= "<tr><td><a href=\"" . $hyperlink . "\">" . $row[0] . "</a></td>
+      <td><a href=\"" . $hyperlink . "\">" . $row[1] . "</a></td>
+      <td><a href=\"" . $hyperlink . "\">" . $row[2] . "</a></td>
+      <td class='numbers'>" . sprintf("%.02f", $hashrate) .  "</td>
+      </tr>";
     } endwhile;
-    $tfoot .= "</tbody><tfoot><tr><td colspan=\"2\"><td class='numbers'>" . sprintf("%.02f", $hashrate_total) . "</td></tfoot>";
+    $tfoot .= "</tbody><tfoot><tr><td colspan=\"3\"><td class='numbers'>" . sprintf("%.02f", $hashrate_total) . "</td></tfoot>";
     $tbody .= "</table>";
   };
 

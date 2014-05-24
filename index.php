@@ -34,18 +34,20 @@
   $(document).ready( function () {
     $('#vtc').dataTable();
     $('#mon').dataTable();
+    $('#plx').dataTable();
     $('#unpaid').dataTable();
   } );
 </script>
 </head>
 <body>
 <div class="container">
-<h2>VTC/MON Merged Mining</h2>
+<h2>VTC/MON/PLX proxypool Merged Mining</h2>
 <table>
 <tr style="vertical-align: top;">
 <td style="width:474px;">
 <img alt="vertcoin icon" src="./img/vertcoin.png" style="height:80px;width:80px;" />
-<img alt="vertcoin icon" src="./img/monocle.png" style="height:80px;width:80px;" />
+<img alt="monocle icon" src="./img/monocle.png" style="height:80px;width:80px;" />
+<img alt="parallaxcoin icon" src="./img/parallaxcoin.png" style="height:80px;width:80px;" />
 <br>
 Mining VTC on the
 <?php if ( $p2pool_port == '9171' ) {
@@ -101,7 +103,7 @@ All times are in <?php echo $local_timezone; ?> time<br />
     } ?>
     <tr>
       <td><b>Auto Payout</b></td>
-      <td><span class="label label-success"><?php echo $vtc_autopayout; ?> VTC</span> / <span class="label label-default"><?php echo $mon_autopayout; ?> MON</span></td>
+      <td><span class="label label-success"><?php echo $vtc_autopayout; ?> VTC</span> / <span class="label label-default"><?php echo $mon_autopayout; ?> MON</span></span> / <span class="label label-info"><?php echo $plx_autopayout; ?> PLX</span></td>
     </tr>
     <tr>
       <td><b>Last VTC block</b></td>
@@ -111,6 +113,10 @@ All times are in <?php echo $local_timezone; ?> time<br />
       <td><b>Last MON block</b></td>
       <td><?php if ( isset($mon_block_found) ) { echo $mon_block_found . " ("; echo $mon_block_since . ")"; } ?></td>
     </tr>
+    <tr>
+      <td><b>Last PLX block</b></td>
+      <td><?php if ( isset($plx_block_found) ) { echo $plx_block_found . " ("; echo $plx_block_since . ")"; } ?></td>
+    </tr>    
     <?php if ( $show_balance ) { ?>
     <tr>
       <td><b>VTC balance</b></td>
@@ -120,6 +126,10 @@ All times are in <?php echo $local_timezone; ?> time<br />
       <td><b>MON balance</b></td>
       <td><?php if ( isset($mon_balance) ) { echo $mon_balance . " ("; echo $mon_immature . ")"; } ?></td>
     </tr>
+    <tr>
+      <td><b>PLX balance</b></td>
+      <td><?php if ( isset($plx_balance) ) { echo $plx_balance . " ("; echo $plx_immature . ")"; } ?></td>
+    </tr>
     <?php } ?>
 </td>
 </tr>
@@ -127,7 +137,7 @@ All times are in <?php echo $local_timezone; ?> time<br />
 </table>
 <br />
 <?php if ( $announcement && file_exists(dirname(__FILE__) . "/include/announcement.html") ) { ?>
-<div class = "alert alert-info">
+<div class = "alert alert-danger">
   <?php include "./include/announcement.html"; ?>
 </div>
 <?php }; ?>
@@ -145,10 +155,14 @@ All times are in <?php echo $local_timezone; ?> time<br />
   if ( isset($_GET['mon']) ) {
     $safeMon = htmlspecialchars($_GET['mon'],ENT_QUOTES);
   };
-
+  
+  if ( isset($_GET['plx']) ) {
+    $safePlx = htmlspecialchars($_GET['plx'],ENT_QUOTES);
+  };
+  
   echo $htmlbody;
 
-  if ( !isset($_GET['vtc']) && !isset($_GET['mon'])) {
+  if ( !isset($_GET['vtc']) && !isset($_GET['mon']) && !isset($_GET['plx'])) {
     include "./include/gen-unpaid.html";
     include "./include/gen-tx.html";
   } else {
