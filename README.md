@@ -1,17 +1,18 @@
 proxypool-simplestats
 =====================
 
-This is quick and dirty mashup of php code to get some info from p2proxy (VTC/MON version) database and show it to users.
+This is quick and dirty mashup of php code to get some info from p2proxy (VTC/MON/PLX version) database and show it to users.
 
 Bootstrap support added by https://github.com/darrenturn90/
 
 Beautification of main page by TheoRettish http://mon.qemulab.com/
 
+PLX support by svk31 http://109.24.254.169/proxypool/ (needs PLX fork of proxypool: https://github/svk31/proxypool/)
 
 INSTALLATION
 ============
 
-First you need to download this repositoty to location, where apache or some other web server can reach it.
+First you need to download this repository to a location where apache or some other web server can reach it. (/var/www/ by default on linux)
 
 Then copy *./include/config.example.php* to **./include/config.php** and set all needed values.
 
@@ -32,6 +33,9 @@ Check that mysql is set to your local timezone.
 mysql -u proxypool -p
 select foundtime, now() from stats_shares order by foundtime desc limit 1;
 ```
+
+You can also use: 
+SELECT @@global.time_zone, @@session.time_zone;
 
 If those 2 values are really close (few seconds apart) you should be ok, otherwise set your timezone of mysql to your local. If your mysql timezone and system timezone does not match, you will probably not get any data in active users category.
 
